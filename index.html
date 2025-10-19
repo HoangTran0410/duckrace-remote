@@ -71,7 +71,7 @@
         <input
           type="text"
           id="peer-id-input"
-          placeholder="Enter popup peer ID"
+          placeholder="Nhập tên client để kết nối"
           style="width: 300px"
         />
         <button id="connect-btn">Kết nối</button>
@@ -108,8 +108,6 @@
       const statusDiv = document.getElementById("status");
       const messagesContainer = document.getElementById("messages-container");
 
-      peerIdInput.value = "fbaio-duckrace-remote-extension";
-
       // Initialize peer
       peer = new Peer({
         // host: "api.fbaio.xyz",
@@ -120,7 +118,7 @@
 
       peer.on("open", (id) => {
         console.log("Web client peer ID:", id);
-        addMessage("Web client ready with ID: " + id);
+        addMessage("Server peerjs đã sẵn sàng với ID: " + id);
       });
 
       peer.on("error", (err) => {
@@ -132,11 +130,11 @@
       connectBtn.addEventListener("click", () => {
         const targetPeerId = peerIdInput.value.trim();
         if (!targetPeerId) {
-          alert("Please enter a peer ID");
+          alert("Vui lòng nhập tên client để kết nối");
           return;
         }
 
-        connectToPeer(targetPeerId);
+        connectToPeer("fbaio-duckrace-remote-extension" + targetPeerId);
       });
 
       sendBtn.addEventListener("click", () => {
