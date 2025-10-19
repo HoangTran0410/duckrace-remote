@@ -111,7 +111,12 @@
       peerIdInput.value = "fbaio-duckrace-remote-extension";
 
       // Initialize peer
-      peer = new Peer();
+      peer = new Peer({
+        host: "api.fbaio.xyz",
+        port: 9000,
+        path: "/peer",
+        debug: 3,
+      });
 
       peer.on("open", (id) => {
         console.log("Web client peer ID:", id);
