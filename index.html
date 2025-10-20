@@ -61,6 +61,30 @@
         max-height: 200px;
         overflow-y: auto;
       }
+      .status.loading {
+        background-color: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeeba;
+      }
+      .spinner {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border: 2px solid #f3f3f3;
+        border-top: 2px solid #856404;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-right: 8px;
+        vertical-align: middle;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
     </style>
   </head>
   <body>
@@ -109,6 +133,9 @@
       const messagesContainer = document.getElementById("messages-container");
 
       // Initialize peer
+      updateStatus("loading-server");
+      addMessage("Đang kết nối tới server PeerJS...");
+
       peer = new Peer({
         host: "api.fbaio.xyz",
         port: 443,
@@ -120,6 +147,7 @@
       peer.on("open", (id) => {
         console.log("Web client peer ID:", id);
         addMessage("Server peerjs đã sẵn sàng với ID: " + id);
+        updateStatus("idle");
       });
 
       peer.on("error", (err) => {
@@ -151,6 +179,9 @@
       });
 
       function connectToPeer(targetPeerId) {
+        updateStatus("loading-peer");
+        addMessage("Đang kết nối tới client: " + targetPeerId + "...");
+
         connection = peer.connect(targetPeerId);
 
         connection.on("open", () => {
@@ -174,15 +205,35 @@
         });
       }
 
-      function updateStatus(connected) {
-        if (connected) {
+      function updateStatus(state) {
+        if (state === "loading-server") {
+          statusDiv.innerHTML =
+            '<span class="spinner"></span>Trạng thái: Đang kết nối tới server...';
+          statusDiv.className = "status loading";
+          sendBtn.disabled = true;
+          connectBtn.disabled = true;
+        } else if (state === "loading-peer") {
+          statusDiv.innerHTML =
+            '<span class="spinner"></span>Trạng thái: Đang kết nối tới client...';
+          statusDiv.className = "status loading";
+          sendBtn.disabled = true;
+          connectBtn.disabled = true;
+        } else if (state === "idle") {
+          statusDiv.textContent =
+            "Trạng thái: Server sẵn sàng - Chưa kết nối client";
+          statusDiv.className = "status disconnected";
+          sendBtn.disabled = true;
+          connectBtn.disabled = false;
+        } else if (state === true) {
           statusDiv.textContent = "Trạng thái: Đã kết nối";
           statusDiv.className = "status connected";
           sendBtn.disabled = false;
+          connectBtn.disabled = false;
         } else {
           statusDiv.textContent = "Trạng thái: Chưa kết nối";
           statusDiv.className = "status disconnected";
           sendBtn.disabled = true;
+          connectBtn.disabled = false;
         }
       }
 
@@ -190,7 +241,7 @@
         const messageDiv = document.createElement("div");
         messageDiv.textContent =
           new Date().toLocaleTimeString() + " - " + message;
-        messagesContainer.appendChild(messageDiv);
+        messagesContainer.prepend(messageDiv);
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
       }
 
