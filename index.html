@@ -137,18 +137,45 @@
       addMessage("Đang kết nối tới server PeerJS...");
 
       peer = new Peer({
-        host: "api.fbaio.xyz",
-        port: 443,
-        path: "/peerjs",
-        secure: true,
-        debug: 3,
+        // host: "api.fbaio.xyz",
+        // port: 443,
+        // path: "/peerjs",
+        // secure: true,
+        // debug: 3,
+        // config: {
+        //   iceServers: [
+        //     { urls: "stun:stun.l.google.com:19302" }, // STUN fallback
+        //     {
+        //       urls: "turn:10.104.0.2:3478",
+        //       username: "peerjsuser",
+        //       credential: "peerjspass",
+        //     },
+        //   ],
+        // },
         config: {
           iceServers: [
-            { urls: "stun:stun.l.google.com:19302" }, // STUN fallback
             {
-              urls: "turn:10.104.0.2:3478",
-              username: "peerjsuser",
-              credential: "peerjspass",
+              urls: "stun:stun.relay.metered.ca:80",
+            },
+            {
+              urls: "turn:global.relay.metered.ca:80",
+              username: "85255418786a1fec898fa979",
+              credential: "gePlRCYyZJ2VMswp",
+            },
+            {
+              urls: "turn:global.relay.metered.ca:80?transport=tcp",
+              username: "85255418786a1fec898fa979",
+              credential: "gePlRCYyZJ2VMswp",
+            },
+            {
+              urls: "turn:global.relay.metered.ca:443",
+              username: "85255418786a1fec898fa979",
+              credential: "gePlRCYyZJ2VMswp",
+            },
+            {
+              urls: "turns:global.relay.metered.ca:443?transport=tcp",
+              username: "85255418786a1fec898fa979",
+              credential: "gePlRCYyZJ2VMswp",
             },
           ],
         },
