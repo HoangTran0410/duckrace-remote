@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Duckrace Remote - Web Client</title>
-    <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -94,15 +93,11 @@
       <div>
         <input
           type="text"
-          id="peer-id-input"
+          id="target-id-input"
           placeholder="Nhập tên client để kết nối"
           style="width: 300px"
         />
-        <button id="connect-btn">Kết nối</button>
-      </div>
-
-      <div id="status" class="status disconnected">
-        Trạng thái: Chưa kết nối
+        <!-- <button id="connect-btn">Kết nối</button> -->
       </div>
 
       <div>
@@ -112,12 +107,12 @@
           placeholder="Nhập kết quả mong muốn, cách nhau bởi dấu phẩy"
           style="width: 300px"
         />
-        <button id="send-btn" disabled>Gửi kết quả</button>
+        <button id="send-btn">Gửi kết quả</button>
       </div>
 
       <div class="messages">
         <h3>Logs:</h3>
-        <div id="messages-container"></div>
+        <div id="logs"></div>
       </div>
     </div>
 
